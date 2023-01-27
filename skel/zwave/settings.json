@@ -1,0 +1,58 @@
+{
+    "mqtt": {
+        "name": "zwave-js-ui",
+        "host": "mosquitto",
+        "port": 1883,
+        "qos": 1,
+        "prefix": "zwave",
+        "reconnectPeriod": 3000,
+        "retain": true,
+        "clean": true,
+        "auth": false,
+        "_ca": "",
+        "ca": "",
+        "_cert": "",
+        "cert": "",
+        "_key": "",
+        "key": "",
+        "disabled": false
+    },
+    "gateway": {
+        "type": 0,
+        "plugins": [],
+        "authEnabled": false,
+        "payloadType": 0,
+        "nodeNames": false,
+        "hassDiscovery": true,
+        "discoveryPrefix": "ZWAVE_DISCOVERY_PREFIX",
+        "logEnabled": false,
+        "logLevel": "debug",
+        "logToFile": false,
+        "ignoreLoc": true,
+        "includeNodeInfo": true,
+        "retainedDiscovery": true,
+        "entityTemplate": "%nid"
+    },
+    "zwave": {
+        "port": "/dev/zwave",
+        "commandsTimeout": 30,
+        "logLevel": "info",
+        "logEnabled": true,
+        "securityKeys": {
+            "S2_Unauthenticated": "ZWAVE_KEY_S2_Unauthenticated",
+            "S2_AccessControl": "ZWAVE_KEY_S2_AccessControl",
+            "S2_Authenticated": "ZWAVE_KEY_S2_Authenticated",
+            "S0_Legacy": "ZWAVE_KEY_S0_Legacy"
+        },
+        "deviceConfigPriorityDir": "/usr/src/app/store/config",
+        "logToFile": true,
+        "serverEnabled": false,
+        "serverServiceDiscoveryDisabled": false,
+        "enableSoftReset": true,
+        "enableStatistics": true,
+        "serverPort": 3000,
+        "maxNodeEventsQueueSize": 100,
+        "higherReportsTimeout": false,
+        "disclaimerVersion": 1
+    }
+}

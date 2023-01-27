@@ -1,0 +1,62 @@
+version: "3.7"
+name: domoticz
+services:
+
+  mosquitto:
+    dns: NETWORK_DNS
+    restart: DOCKER_RESTART
+    stop_signal: SIGINT
+    image: eclipse-mosquitto:2
+    volumes:
+      - ./mosquitto/config/:/mosquitto/config/:ro
+      - ./mosquitto/log/:/mosquitto/log/
+      - ./mosquitto/data:/mosquitto/data/
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+  mqtt-explorer:
+    dns: NETWORK_DNS
+    restart: DOCKER_RESTART
+    image: smeagolworms4/mqtt-explorer
+    depends_on:
+      - mosquitto
+    volumes:
+      - ./mqtt-explorer/config:/mqtt-explorer/config
+    ports:
+      - 4000:4000
+
+  zwave-js-ui:
+    dns: NETWORK_DNS
+    restart: DOCKER_RESTART
+    stop_signal: SIGINT
+    image: zwavejs/zwave-js-ui:latest
+    depends_on:
+      - mosquitto
+    volumes:
+      - ./zwave:/usr/src/app/store
+    ports:
+      - 8091:8091
+      - 3000:3000
+    devices:
+      - 'ZWAVE_DEVICE:/dev/zwave'
+    environment:
+      - TZ=TIME_ZONE
+
+  domoticz:
+    dns: NETWORK_DNS
+    restart: DOCKER_RESTART
+    stop_signal: SIGINT
+    image: domoticz/domoticz:stable
+    depends_on:
+      - mosquitto
+      - zwave-js-ui
+    volumes:
+      - ./domoticz:/opt/domoticz/userdata
+    ports:
+      - DOMOTICZ_HTTPS_PORT:443
+      - DOMOTICZ_HTTP_PORT:8080
+      - DOMOTICZ_SHARE_PORT:6144
+    environment:
+      - TZ=TIME_ZONE
+
