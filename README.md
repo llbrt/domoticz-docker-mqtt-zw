@@ -10,7 +10,7 @@ the `Z-Wave JS UI` docker configuration with some other Docker service (or remov
 
 This project have been tested on Linux. It should work on a Mac and may work under Windows if  `bash` or `WSL2` is installed.
 
-Some knowledge of Domoticz, Docker and Z-Wave are expected, this README doesn't explain how to install, setup or use theses software and hardware.
+Some knowledge of Domoticz, Docker and Z-Wave is expected, this README doesn't explain how to install, setup or use theses software and hardware.
 
 ## Generation
 
