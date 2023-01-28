@@ -8,9 +8,9 @@ with [Z-Wave JS UI](https://github.com/zwave-js/zwave-js-ui) and [Mosquitto](htt
 If you are using (or plan to use) Domoticz with MQTT for other purposes, it should be easy to replace
 the `Z-Wave JS UI` docker configuration with some other Docker service (or remove it if you just need MQTT).
 
-This project have been tested on Linux. It should work on a Mac and may work under Windows if  `bash` or `WSL2` is installed.
+This project have been tested on Linux. It should work on a Mac and may work under Windows if `MinGW` or `WSL2` is installed.
 
-Some knowledge of Domoticz, Docker and Z-Wave are expected, this README doesn't explain how to install, setup or use theses software and hardware.
+Some knowledge of Domoticz, Docker and Z-Wave is expected, this README doesn't explain how to install, setup or use theses software and hardware.
 
 ## Generation
 
