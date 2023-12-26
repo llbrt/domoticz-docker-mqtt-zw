@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 name: domoticz
 services:
 
@@ -43,6 +43,23 @@ services:
     environment:
       - TZ=TIME_ZONE
 
+  zigbee2mqtt:
+    dns: NETWORK_DNS
+    restart: DOCKER_RESTART
+    stop_signal: SIGINT
+    image: koenkk/zigbee2mqtt
+    depends_on:
+      - mosquitto
+    volumes:
+      - ./zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    ports:
+      - 8092:8080
+    devices:
+      - 'ZIGBEE_DEVICE:/dev/ttyUSB0'
+    environment:
+      - TZ=TIME_ZONE
+
   domoticz:
     dns: NETWORK_DNS
     restart: DOCKER_RESTART
@@ -51,6 +68,7 @@ services:
     depends_on:
       - mosquitto
       - zwave-js-ui
+      - zigbee2mqtt
     volumes:
       - ./domoticz:/opt/domoticz/userdata
     ports:

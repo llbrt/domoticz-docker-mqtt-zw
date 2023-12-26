@@ -1,16 +1,17 @@
-# Docker Domoticz Z-Wave with MQTT
+# Docker Domoticz Z-Wave + Zigbee with MQTT
 
 This project can generate a docker compose environment to have [Domoticz](https://github.com/domoticz/domoticz) running
-with [Z-Wave JS UI](https://github.com/zwave-js/zwave-js-ui) and [Mosquitto](https://github.com/eclipse/mosquitto).
+with [Z-Wave JS UI](https://github.com/zwave-js/zwave-js-ui), [Zigbee2MQTT](https://www.zigbee2mqtt.io/)
+and [Mosquitto](https://github.com/eclipse/mosquitto).
 
 [MQTT Explorer](https://github.com/thomasnordquist/MQTT-Explorer) have been added for debug/supervision purposes.
 
 If you are using (or plan to use) Domoticz with MQTT for other purposes, it should be easy to replace
-the `Z-Wave JS UI` docker configuration with some other Docker service (or remove it if you just need MQTT).
+the `Z-Wave JS UI` and/or `Zigbee2MQTT` docker configuration with some other Docker service (or remove it if you just need MQTT).
 
 This project have been tested on Linux. It should work on a Mac and may work under Windows if `MinGW` or `WSL2` is installed.
 
-Some knowledge of Domoticz, Docker and Z-Wave is expected, this README doesn't explain how to install, setup or use theses software and hardware.
+Some knowledge of Domoticz, Docker, Z-Wave and Zigbee is expected, this README doesn't explain how to install, setup or use theses software and hardware.
 
 ## Generation
 
@@ -44,9 +45,10 @@ For example:
 ```
 
 Warning:
-- respect the indentation; you may copy the `devices` lines of the service `zwave-js-ui`
+- respect the indentation; you may copy the `devices` lines of the service `zwave-js-ui` or `zigbee2mqtt`
 as an example
 - the device by id `/dev/serial/by-id/usb-` should be preferred
+- using udev rules to create device aliases may also be helpful
 
 ### Note on Docker
 
@@ -58,7 +60,8 @@ them manually. See the documentation of [docker pull](https://docs.docker.com/en
 
 ## Setup an existing Domoticz installation
 
-Make sure that your local servers are stopped: `Domoticz`, `Mosquitto` and/or `Z-Wave JS UI`.
+Make sure that your local servers are stopped: `Domoticz`, `Mosquitto`,
+`Z-Wave JS UI` and/or `Zigbee2MQTT`.
 
 Copy your existing database (file `domoticz.db`), yours scripts and all the files you need
 in the folder `_domoticz/domoticz`.
@@ -67,6 +70,9 @@ Look in [the documentation](https://www.domoticz.com/wiki/Docker) for more detai
 
 If you have an existing `Z-Wave JS UI` setup, copy the files (`settings.json`, `user.json`, etc) in
 the folder `_domoticz/zwave`.
+
+If you have an existing `Zigbee2MQTT` setup, copy the files (`configuration.yaml`, `database.db`, etc) in
+the folder `_domoticz/zigbee2mqtt`.
 
 If you have an existing `Mosquitto` configuration, copy the files `mosquitto.conf` and `password.txt`
 in the folder `_domoticz/mosquitto/config`.
@@ -90,7 +96,7 @@ In the MQTT related hardware configurations, set:
 - `Remote Address`: mosquitto
 - `Port`: 1883
 
-Once all is tested (Z-Wave, scripts, etc):
+Once all is tested (Z-Wave, Zigbee, scripts, etc):
 - stop the docker composition: in another terminal, go in the folder
 `_domoticz` and run `docker compose down` (or `docker-compose down`)
 - disable your previous servers so they won't start after a reboot
@@ -136,7 +142,12 @@ The Z-Wave nodes should be added in `Domoticz`: one or more devices are added pe
 With the default configuration, the device names are like `nodeID_2`.
 Use the `ZwaveJSU` panel to include/exclude devices.
 
-Once all is tested (Z-Wave, scripts, etc), you should reboot your server and
+If you keep both protocols, create a new hardware for `Zigbee2MQTT` with the same values, except the `Auto Discovery Prefix`.
+
+The Zigbee devices should be added in `Domoticz`: one or more `Domoticz` devices are added per Zigbee device, depending on your hardware.
+Use the `Zigbee2MQTT` panel to configure you Zigbee network.
+
+Once all is tested (Z-Wave, Zigbee, scripts, etc), you should reboot your server and
 verify that the docker composition is up and running after the restart.
 
 ## Troubleshooting
@@ -151,6 +162,8 @@ Connect to the local Mosquitto service and explore the message queues.
 [`Domoticz` Wiki](https://www.domoticz.com/wiki)
 
 [`Z-Wave JS UI`](https://zwave-js.github.io/zwave-js-ui/#/)
+
+[`Zigbee2MQTT`](https://www.zigbee2mqtt.io/)
 
 [`MQTT Explorer`](https://mqtt-explorer.com)
 

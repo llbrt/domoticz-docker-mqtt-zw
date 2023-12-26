@@ -1,0 +1,15 @@
+permit_join: ZIGBEE_PERMIT_JOIN
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://mosquitto
+serial:
+  port: /dev/ttyUSB0
+frontend:
+  port: 8080
+advanced:
+  network_key: ZIGBEE_NETWORK_KEY
+homeassistant:
+  discovery_topic: ZIGBEE_DISCOVERY_PREFIX
+  legacy_entity_attributes: true
+  legacy_triggers: true
+  status_topic: ZIGBEE_DISCOVERY_PREFIXstatus
